@@ -1,5 +1,9 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import posthog from "posthog-js";
+import { posthogLogger } from "@/lib/posthog-logger";
 
 interface Props {
     title: string;
@@ -12,7 +16,15 @@ interface Props {
 
 const EventCard = ({ title, image, slug, location, date, time }: Props) => {
     return (
-        <Link href={`/event/${slug}`} id="event-card" className="event-card">
+        <Link
+            href={`/event/${slug}`}
+            id="event-card"
+            className="event-card"
+            onClick={() => {
+                posthog.capture("event_selected", { event_slug: slug });
+                posthogLogger.info("Featured event selected", { event_slug: slug });
+            }}
+        >
             <img src={image} alt={title} width={410} height={300} className="poster" />
 
             <div className="flex flex-row gap-2">

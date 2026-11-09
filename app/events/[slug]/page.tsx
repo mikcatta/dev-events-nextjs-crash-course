@@ -6,7 +6,19 @@ import { IEvent } from "@/database";
 import EventCard from "@/components/EventCard";
 import { cacheLife } from "next/cache";
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+import events from "@/lib/constants";
+
+//const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+
+/*
+const events = [
+  { image: "/images/event1.jpg", title: "Event 1", slug: "event-1", location: "New York", date: "2023-08-15", time: "10:00 AM" 
+   },
+  { image: "/images/event2.jpg", title: "Event 2", slug: "event-2", location: "Los Angeles", date: "2023-09-20", time: "2:00 PM" },
+  { image: "/images/event3.jpg", title: "Event 3", slug: "event-3", location: "Chicago", date: "2023-10-10", time: "11:00 AM" }
+];*/
+
+
 
 const EventDetailItem = ({ icon, alt, label }: { icon: string; alt: string; label: string }) => {
   return (

@@ -5,12 +5,17 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-    --color-blue: #94eaff;
-    --color-light-100: #e7f2ff;
-    --color-light-200: #bdbdbd;
-    --color-border-dark: #151024;
-    --color-dark-100: #0d161a;
-    --color-dark-200: #182830;
+    /* Light theme. The names come from the original dark design and are kept so they
+       match the tutorial, but the values are now for a light background:
+         light-100 / light-200 = main / secondary TEXT (now dark greys)
+         dark-100  / dark-200  = card & pill SURFACES / borders & inputs (now light greys)
+         blue                  = accent at the end of the heading gradient */
+    --color-blue: #0369a1;
+    --color-light-100: #1e293b;
+    --color-light-200: #475569;
+    --color-border-dark: #e2e8f0;
+    --color-dark-100: #eef2f6;
+    --color-dark-200: #d5dde6;
     --radius: 0.625rem;
     --card: oklch(1 0 0);
     --card-foreground: oklch(0.147 0.004 49.3);
@@ -41,8 +46,8 @@
     --sidebar-accent-foreground: oklch(0.214 0.009 43.1);
     --sidebar-border: oklch(0.922 0.005 34.3);
     --sidebar-ring: oklch(0.714 0.014 41.2);
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.147 0.004 49.3);
+    --background: #f8fafc;
+    --foreground: #0f172a;
 }
 
 @theme inline {
@@ -89,8 +94,8 @@
     --radius-md: calc(var(--radius) - 2px);
     --radius-lg: var(--radius);
     --radius-xl: calc(var(--radius) + 4px);
-    --font-sans: var(--font-sans);
-    --font-heading: var(--font-heading);
+    --font-sans: var(--font-schibsted-grotesk), ui-sans-serif, system-ui, sans-serif;
+    --font-heading: var(--font-schibsted-grotesk), ui-sans-serif, system-ui, sans-serif;
     --radius-2xl: calc(var(--radius) * 1.8);
     --radius-3xl: calc(var(--radius) * 2.2);
     --radius-4xl: calc(var(--radius) * 2.6);
@@ -101,15 +106,15 @@
 }
 
 @utility text-gradient {
-    @apply to-blue bg-gradient-to-b from-white via-white bg-clip-text font-semibold text-transparent;
+    @apply to-blue bg-gradient-to-b from-foreground via-foreground bg-clip-text font-semibold text-transparent;
 }
 
 @utility glass {
-    @apply bg-[#12121280]/50 rounded-md bg-clip-padding backdrop-filter backdrop-blur-xl border-b border-border-dark;
+    @apply bg-white/70 rounded-md bg-clip-padding backdrop-filter backdrop-blur-xl border-b border-border-dark;
 }
 
 @utility card-shadow {
-    box-shadow: 0px 4px 40px 0px #00000066;
+    box-shadow: 0px 4px 24px 0px #0f172a1a;
 }
 
 @layer base {
@@ -117,8 +122,10 @@
         @apply border-border outline-ring/50;
     }
 
+    /* font-sans goes on body (not html) because next/font defines
+       --font-schibsted-grotesk on <body> in app/layout.tsx. */
     body {
-        @apply bg-background text-foreground;
+        @apply bg-background text-foreground font-sans;
     }
 
     main {
@@ -136,9 +143,6 @@
     ul {
         @apply list-disc list-inside;
     }
-  html {
-    @apply font-sans;
-    }
 }
 
 @layer components {
@@ -153,6 +157,11 @@
 
         a {
             @apply flex-center gap-2 text-center w-full;
+        }
+
+        /* arrow-down.svg is drawn in white; invert it to black for the light theme. */
+        img {
+            @apply invert;
         }
     }
 
@@ -185,6 +194,11 @@
 
         .poster {
             @apply h-[300px] w-full rounded-lg object-cover;
+        }
+
+        /* The pin/calendar/clock icons are light grey (#BDBDBD); darken them for the light theme. */
+        img:not(.poster) {
+            @apply brightness-50;
         }
 
         .title {
@@ -231,7 +245,7 @@
             }
 
             .booking {
-                @apply flex-1 w-full p-4 border-l border-gray-700;
+                @apply flex-1 w-full p-4 border-l border-dark-200;
 
                 .signup-card {
                     @apply bg-dark-100 border-dark-200 card-shadow flex w-full flex-col gap-6 rounded-[10px] border px-5 py-6;
@@ -275,7 +289,7 @@
             }
 
             button {
-                @apply bg-primary hover:bg-primary/90 w-full cursor-pointer items-center justify-center rounded-[6px] px-4 py-2.5 text-lg font-semibold text-black;
+                @apply bg-primary hover:bg-primary/90 w-full cursor-pointer items-center justify-center rounded-[6px] px-4 py-2.5 text-lg font-semibold text-primary-foreground;
             }
         }
     }

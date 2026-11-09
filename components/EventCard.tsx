@@ -17,7 +17,7 @@ interface Props {
 const EventCard = ({ title, image, slug, location, date, time }: Props) => {
     return (
         <Link
-            href={`/event/${slug}`}
+            href={`/events/${slug}`}
             id="event-card"
             className="event-card"
             onClick={() => {
